@@ -88,15 +88,12 @@ jobs:
       - name: Is this love?
         shell: bash
         run: |
-          # chalet --version
-          # chalet build
-          # chalet bundle
-
-#  THIS WILL BREAK
-
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet --version
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet build
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet bundle
+          # chalet --version
+          # chalet build
+          # chalet bundle
 
       - name: LS
         shell: bash
