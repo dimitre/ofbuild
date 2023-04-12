@@ -1,3 +1,16 @@
+//          foreground background
+// black        30         40
+// red          31         41
+// green        32         42
+// yellow       33         43
+// blue         34         44
+// magenta      35         45
+// cyan         36         46
+// white        37         47
+
+// pg  -o"/Volumes/tool/ofw" -a"ofxARKit" -p"ios,linuxarmv7l,osx" -s", /Volumes/tool/ofw/apps/AreiaApps/_AREIA/AREIA/src" -t"gitignore" "/Volumes/tool/ofw/apps/myApps/mySketch"
+
+
 #include <iostream>
 #include <filesystem>
 #include <vector>
@@ -31,7 +44,8 @@ std::string sign = R"(
 	YAML::Node config;
 	fs::path ofPath;
 	// fs::path buildPath = "builder";
-	fs::path buildPath = "local_addons";
+	// fs::path buildPath = "local_addons";
+	fs::path buildPath = "ofbuild_addons";
 	// FIXME: maybe unneded
 	vector<fs::path> addonsPath;
 	vector<string> addonsStr;
@@ -66,7 +80,7 @@ std::string sign = R"(
 			}
 			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
 			string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
-			cout << command << endl;
+			// cout << command << endl;
 			bool ok = system(command.c_str());
 			// cout << ok << endl;
 			divider();
@@ -94,7 +108,6 @@ std::string sign = R"(
 		cout << "Build System for OpenFrameworks v.0.01" << endl;
 		msg("http://dmtr.org/", 34);
 		
-		cout << "current path " << std::filesystem::current_path() << endl;
 		cout << endl;
 
 		fs::path configFile = "of.yml";
@@ -103,6 +116,7 @@ std::string sign = R"(
 			divider();
 			std::exit(0);
 		}
+
 		config = YAML::LoadFile(configFile);
 		auto ofPathYML = config["ofpath"];
 		ofPath = ofPathYML.as<string>();
@@ -112,9 +126,24 @@ std::string sign = R"(
 			std::exit(0);
 		}
 
-		fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
-		if (!fs::exists(pgPath)) {
-			msg("projectGenerator path does not exist \n" + pgPath.string(), 31);
+		auto nameYML = config["name"];
+		msg(nameYML.as<string>(), 31);
+		cout << "current path " << std::filesystem::current_path() << endl;
+
+
+		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
+		// std::vector<fs::path> pgPaths = 
+		fs::path pgPath;
+
+		for (auto & p : {
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator"
+		}) {
+			pgPath = p;
+		}
+
+		if (pgPath.empty()) {
+			msg("projectGenerator path does not exist \n" , 31);
 			divider();
 			std::exit(0);
 		}
@@ -133,6 +162,15 @@ std::string sign = R"(
 		bold("addons");
 		for (auto & a : addonsStr) {
 			msg(a);
+		}
+
+		auto items = config["specific_addons"];
+		for(YAML::const_iterator it=items.begin();it!=items.end();++it) {
+			auto item = it;
+			// if (item["git"]) {
+			// 	cout << item["git"].as<string>() << endl;
+			// }
+			// std::cout << "Playing at " << it->first.as<std::string>() << " is " << it->second.as<std::string>() << "\n";
 		}
  		// auto addons = config["addons"];
 		// for (std::size_t i=0;i<addons.size();i++) {
@@ -189,18 +227,15 @@ std::string sign = R"(
 		}
 		commands.emplace_back(".");
 
-//xaxa
-// list all cloned addons
-	// bold("cloned addons");
-
+		//xaxa
+		// list all cloned addons
+		// bold("cloned addons");
 
 		bold("commands");
 		for (auto & c : commands) {
 			msg(c);
 		}
 		
-
-
 		string command = fmt::format("{}",fmt::join(commands," "));
 		msg (command, 34);
 
@@ -209,26 +244,11 @@ std::string sign = R"(
 			msg ("error");
 		}
 
-// pg  -o"/Volumes/tool/ofw" -a"ofxARKit" -p"ios,linuxarmv7l,osx" -s", /Volumes/tool/ofw/apps/AreiaApps/_AREIA/AREIA/src" -t"gitignore" "/Volumes/tool/ofw/apps/myApps/mySketch"
-
-
-
+		// bool ok2 = system("open *.xcodeproj");
 	}
 } build;
-
-
-//          foreground background
-// black        30         40
-// red          31         41
-// green        32         42
-// yellow       33         43
-// blue         34         44
-// magenta      35         45
-// cyan         36         46
-// white        37         47
 
 int main(const int argc, const char* argv[]) {
 	build.load();
 	return 0;
 }
-

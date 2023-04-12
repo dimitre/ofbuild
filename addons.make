@@ -1,4 +1,11 @@
-builder/ofxSyphon
-builder/ofxMidi
+ofxAssimpModelLoader
+ofxKinect
+ofxGui
+ofxOpenCv
+ofxNetwork
+ofxSvg
+ofxXmlSettings
+ofbuild_addons/ofxSyphon
+ofbuild_addons/ofxMidi
 ofxMicroUI
-builder/ofxMicroUIMidiController
+ofbuild_addons/ofxMicroUIMidiController

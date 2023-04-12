@@ -1,3 +1,5 @@
 build/**
 builder/**
 chalet_external/**
+addons_make
+*.xcodeproj/**
