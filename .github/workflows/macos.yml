@@ -90,9 +90,9 @@ jobs:
         shell: bash
         run: |
           brew info --cask chalet
-          /usr/local/Caskroom/chalet/0.5.21  --version
-          /usr/local/Caskroom/chalet/0.5.21  build
-          /usr/local/Caskroom/chalet/0.5.21  bundle
+          /usr/local/Caskroom/chalet/0.5.21/chalet  --version
+          /usr/local/Caskroom/chalet/0.5.21/chalet  build
+          /usr/local/Caskroom/chalet/0.5.21/chalet  bundle
           # chalet --version
           # chalet build
           # chalet bundle
