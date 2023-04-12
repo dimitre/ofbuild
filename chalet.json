@@ -6,7 +6,7 @@
 	"externalDependencies": {
 		"fmt": {
 			// "repository": "git@github.com:fmtlib/fmt.git",
-			"repository" : "https://github.com/fmtlib/fmt-cpp",
+			"repository" : "https://github.com/fmtlib/fmt",
 			"tag": "9.1.0",
 			"kind" : "git"
 		},
