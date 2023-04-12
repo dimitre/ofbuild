@@ -24,13 +24,16 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      # - uses: actions/checkout@v3
+
+
+
       # - if: runner.os == 'macOS'
       #   name: Brew LLVM
       #   shell: bash
       #   run: |
       #     brew update
       #     brew install llvm
-      - uses: actions/checkout@v3
 
 
       # - name: Cache Chalet
@@ -88,6 +91,7 @@ jobs:
       - name: Is this love?
         shell: bash
         run: |
+          brew info --cask chalet
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet --version
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet build
           /opt/homebrew/Caskroom/chalet/0.5.21/chalet bundle
