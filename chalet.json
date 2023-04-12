@@ -1,0 +1,87 @@
+
+
+{
+	"name": "ofproj",
+	"version": "1.0.0",
+	"externalDependencies": {
+		"fmt": {
+			"repository": "git@github.com:fmtlib/fmt.git",
+			"tag": "9.1.0",
+			"kind" : "git"
+		},
+
+		// "mini-yaml" : {
+		// 	"repository" : "git@github.com:jimmiebergmann/mini-yaml.git",
+		// 	"kind" : "git"
+		// }, 
+
+		"yaml" : {
+			"repository" : "git@github.com:jbeder/yaml-cpp.git",
+			"kind" : "git"
+		}
+	},
+
+	"targets": {
+		"yaml" : {
+			"kind": "cmakeProject",
+			"location": "${external:yaml}",
+			"recheck": false,
+			"defines": [
+				"BUILD_SHARED_LIBS=OFF",
+				"CMAKE_COMPILE_WARNING_AS_ERROR=0",
+				// "CMAKE_OSX_DEPLOYMENT_TARGET=10.9",
+				// "CMAKE_C_FLAGS=-arch arm64 -arch x86_64 -O3 -DNDEBUG -funroll-loops -Werror",
+				"CMAKE_C_FLAGS=-fPIC",
+				"CMAKE_CXX_FLAGS=-arch arm64 -arch x86_64 -stdlib=libc++ -O3 -DNDEBUG -funroll-loops -std=c++11"
+			]
+		},
+		"fmt": {
+			"kind": "cmakeProject",
+			"location": "${external:fmt}",
+			"recheck": false
+			// ,
+			// "defines": [
+			// 	"CMAKE_OSX_DEPLOYMENT_TARGET=10.15"
+			// ]
+		},
+		"ofbuild": {
+			"kind": "executable",
+			"language": "C++",
+			"settings:Cxx": {
+				"cppStandard": "c++17",
+				"warningsPreset": "pedantic",
+				"includeDirs": [
+					// "${external:mini-yaml}/yaml",
+					"${external:yaml}/src",
+					"${external:yaml}/include",
+					"${external:fmt}/include"
+					// ,
+					// "src"
+				]
+				// "precompiledHeader": "src/pch.hpp",
+				// ,
+				,
+				"libDirs": [
+					"${externalBuild:fmt}",
+					"${externalBuild:yaml}"
+				],
+				"staticLinks": [
+					"fmt",
+					// "yaml",
+					"${externalBuild:yaml}/libyaml-cpp.a"
+				]
+			},
+			"files": [
+				"src/**.cpp"
+				// , 
+				// "${external:mini-yaml}/yaml/**.cpp"
+			]
+		}
+	},
+	"distribution": {
+		"all": {
+			"kind": "bundle",
+			"buildTargets": "*"
+		}
+	}
+}

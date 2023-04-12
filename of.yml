@@ -1,0 +1,35 @@
+name: AeroFractal
+
+ofpath: /Volumes/tool/ofw
+
+addonsx:
+- ofxAssimpModelLoader
+- ofxKinect
+- git@github.com:danomatika/ofxMidi.git
+- git@github.com:dimitre/ofxMicroUI.git
+- git@github.com:dimitre/ofxMicroUIMidiController.git
+- git@github.com:astellato/ofxSyphon.git
+
+addons: |
+  ofxAssimpModelLoader
+  ofxKinect
+  git@github.com:danomatika/ofxMidi.git
+  git@github.com:dimitre/ofxMicroUI.git
+  git@github.com:dimitre/ofxMicroUIMidiController.git
+  git@github.com:astellato/ofxSyphon.git
+
+addons2:
+- git: git@github.com:dimitre/ofxMicroUI.git
+- git: git@github.com:dimitre/ofxMicroUIMidiController.git
+  tag: 0.9.2
+- git: git@github.com:astellato/ofxSyphon.git
+  branch: of_head
+
+
+additionalSourceFolders:
+  ../../src
+  /Volumes/tool/ofw/additional
+
+platforms: ["macos", "ios"]
+
+templates: ["vscode"]

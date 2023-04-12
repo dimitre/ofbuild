@@ -1,0 +1,4 @@
+builder/ofxSyphon
+builder/ofxMidi
+ofxMicroUI
+builder/ofxMicroUIMidiController
