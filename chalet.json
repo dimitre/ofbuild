@@ -6,7 +6,7 @@
 	"externalDependencies": {
 		"fmt": {
 			// "repository": "git@github.com:fmtlib/fmt.git",
-			"repository" : "https://github.com/fmtlib/fmt",
+			"repository" : "https://github.com/fmtlib/fmt-cpp",
 			"tag": "9.1.0",
 			"kind" : "git"
 		},
@@ -29,6 +29,7 @@
 			"location": "${external:yaml}",
 			"recheck": false,
 			"defines": [
+				"BUILD_STATIC_LIBS=ON",
 				"BUILD_SHARED_LIBS=OFF",
 				"CMAKE_COMPILE_WARNING_AS_ERROR=0",
 				// "CMAKE_OSX_DEPLOYMENT_TARGET=10.9",
@@ -69,7 +70,7 @@
 				],
 				"staticLinks": [
 					"fmt",
-					// "yaml",
+					// "yaml"
 					"${externalBuild:yaml}/libyaml-cpp.a"
 				]
 			},
