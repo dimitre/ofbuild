@@ -31,52 +31,67 @@ jobs:
       #     brew update
       #     brew install llvm
       - uses: actions/checkout@v3
-      - name: Cache Chalet
-        id: cache-chalet
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-chalet
-        with:
-          path: |
-            # chalet/**
-            chaletbuild/**
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.cache-name }}-
-      - name: Cache Build
-        id: cache-build
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-build
-        with:
-          path: |
-            chalet_external/**
-            build/**
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('build/**/*.cpp') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.cache-name }}-
-      - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
-        name: Get Chalet
-        uses: dimitre/get-chalet@v2
-      - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
-        name: Move and Link
+
+
+      # - name: Cache Chalet
+      #   id: cache-chalet
+      #   uses: actions/cache@v3
+      #   env:
+      #     cache-name: cache-chalet
+      #   with:
+      #     path: |
+      #       # chalet/**
+      #       chaletbuild/**
+      #     key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-${{ env.cache-name }}-
+      # - name: Cache Build
+      #   id: cache-build
+      #   uses: actions/cache@v3
+      #   env:
+      #     cache-name: cache-build
+      #   with:
+      #     path: |
+      #       chalet_external/**
+      #       build/**
+      #     key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('build/**/*.cpp') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-${{ env.cache-name }}-
+      # - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
+      #   name: Get Chalet
+      #   uses: dimitre/get-chalet@v2
+      # - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
+      #   name: Move and Link
+      #   shell: bash
+      #   run: |
+      #     mv chalet chaletbuild
+      #     mv ./chaletbuild/build/
+      #     # ./chaletbuild/build/**/chalet --version
+      #     ./chalet --version
+
+      # - name: Is this love?
+      #   shell: bash
+      #   run: |
+      #     ln -s ./chaletbuild/build/**/chalet .
+      #     ./chalet --version
+      #     # pwd
+      #     # ls
+      #     # ./chalet configure -t llvm -a auto
+      #     ./chalet build
+      #     ./chalet bundle
+      #     # ls -alF
+
+      - name: Chalet Install
         shell: bash
-        run: |
-          mv chalet chaletbuild
-          # ./chaletbuild/build/**/chalet --version
-          ./chalet --version
+        run: brew install --cask https://raw.githubusercontent.com/dimitre/chalet_homebrew/main/chalet.rb
 
       - name: Is this love?
         shell: bash
         run: |
-          ln -s ./chaletbuild/build/**/chalet .
-          ./chalet --version
-          # pwd
-          # ls
-          # ./chalet configure -t llvm -a auto
-          ./chalet build
-          ./chalet bundle
-          # ls -alF
+          chalet --version
+          chalet build
+          chalet bundle
+
       - name: LS
         shell: bash
         run: |
