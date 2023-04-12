@@ -5,7 +5,8 @@
 	"version": "1.0.0",
 	"externalDependencies": {
 		"fmt": {
-			"repository": "git@github.com:fmtlib/fmt.git",
+			// "repository": "git@github.com:fmtlib/fmt.git",
+			"repository" : "https://github.com/fmtlib/fmt",
 			"tag": "9.1.0",
 			"kind" : "git"
 		},
@@ -16,7 +17,8 @@
 		// }, 
 
 		"yaml" : {
-			"repository" : "git@github.com:jbeder/yaml-cpp.git",
+			// "repository" : "git@github.com:jbeder/yaml-cpp.git",
+			"repository" : "https://github.com/jbeder/yaml-cpp",
 			"kind" : "git"
 		}
 	},
