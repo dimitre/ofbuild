@@ -13,7 +13,7 @@ addons:
 - git@github.com:danomatika/ofxMidi.git
 - git@github.com:dimitre/ofxMicroUI.git
 - git@github.com:dimitre/ofxMicroUIMidiController.git
-
+- zamis.gaita
 - git@github.com:astellato/ofxSyphon.git
 
 specific_addons:

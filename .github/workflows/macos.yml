@@ -1,0 +1,102 @@
+name: ChaletTest
+
+on: [push, pull_request]
+
+jobs:
+  # build:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest, macos-latest, windows-latest]
+
+  #   runs-on: ${{ matrix.os }}
+
+
+
+  build_version:
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [ubuntu-latest, macos-latest]
+        os: [macos-latest]
+        # os: [ubuntu-latest] , 
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # - if: runner.os == 'macOS'
+      #   name: Brew LLVM
+      #   shell: bash
+      #   run: |
+      #     brew update
+      #     brew install llvm
+      - uses: actions/checkout@v3
+      - name: Cache Chalet
+        id: cache-chalet
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-chalet
+        with:
+          path: |
+            # chalet/**
+            chaletbuild/**
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-build
+        with:
+          path: |
+            chalet_external/**
+            build/**
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('build/**/*.cpp') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+      - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
+        name: Get Chalet
+        uses: dimitre/get-chalet@v2
+      - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
+        name: Move and Link
+        shell: bash
+        run: |
+          mv chalet chaletbuild
+          # ./chaletbuild/build/**/chalet --version
+          ./chalet --version
+
+      - name: Is this love?
+        shell: bash
+        run: |
+          ln -s ./chaletbuild/build/**/chalet .
+          ./chalet --version
+          # pwd
+          # ls
+          # ./chalet configure -t llvm -a auto
+          ./chalet build
+          ./chalet bundle
+          # ls -alF
+      - name: LS
+        shell: bash
+        run: |
+          ls -alFR
+
+      - name: Update Release
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: nightly
+          release: nightly
+          prerelease: false
+          files: dist/mac.zip
+        # if: github.repository == 'openframeworks/apothecary' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        
+      # - name: "Upload assets"
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: |
+      #       dist/mac.zip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     draft: true
+      #     prerelease: false

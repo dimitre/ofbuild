@@ -70,6 +70,18 @@ std::string sign = R"(
 			}
 			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
 
+			std::regex findRepository("([^/]+)(\.git)?$");
+			std::smatch varMatch;
+			if(std::regex_search(f, varMatch, findRepository)) {
+				cout << f << endl;
+				cout << varMatch[0].str() << endl;
+				// for (auto & v : varMatch) {
+				// 	cout << v.str() << endl;
+				// }
+			} else {
+				msg("invalid git address : " + f, 31);
+			}
+
 			string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
 			// cout << command << endl;
 			bool ok = system(command.c_str());

@@ -1,7 +1,16 @@
+# OFBUILD (macOS only today)
+Project to build reproduceable templates for openFrameworks projects using recipes.  
+Recipes uses the YAML format, similar to github actions  
+
+You can build from source using
+
+
+Ideas are welcome.
+
+# random notes:
+
 https://textpaint.net
 
-todo:
-ofbuild clean  - clean builder folder
 
 ```c++
 std::string sign = R"(
