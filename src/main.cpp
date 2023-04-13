@@ -63,33 +63,13 @@ std::string sign = R"(
 
 	void checkAddon(const string & f) {
 
-		if (f.substr(0,3) == "git") {
-			// cout << "git addon ----" << f << endl;
-			if (!fs::exists(buildPath)) {
-				fs::create_directory(buildPath);
-			}
-			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
+		// if (f.substr(0,3) == "git") 
 
-			std::regex findRepository("([^/]+)(\.git)?$");
-			std::smatch varMatch;
-			if(std::regex_search(f, varMatch, findRepository)) {
-				cout << f << endl;
-				cout << varMatch[0].str() << endl;
-				// for (auto & v : varMatch) {
-				// 	cout << v.str() << endl;
-				// }
-			} else {
-				msg("invalid git address : " + f, 31);
-			}
-
-			string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
-			// cout << command << endl;
-			bool ok = system(command.c_str());
-			// cout << ok << endl;
-			divider();
-		} else {
+		if (fs::exists(ofPath / "addons" / f)) {
 			// cout << "core addon ----" << f << endl;
 			// cout << "::: " << f << endl;
+			cout << "🏠 " << f <<  endl;
+
 			addonsStr.emplace_back(f);
 
 			// fixme: remove
@@ -97,7 +77,40 @@ std::string sign = R"(
 			if (fs::exists(addonPath)) {
 				addonsPath.emplace_back(addonPath);
 			}
-		}
+		} 
+		else 
+		{
+			// cout << "git addon ----" << f << endl;
+			if (!fs::exists(buildPath)) {
+				fs::create_directory(buildPath);
+			}
+			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
+
+			std::regex findRepository {"([^/]+)(\\.git)?$"};
+			std::smatch varMatch;
+			if(std::regex_search(f, varMatch, findRepository)) {
+				std::string p = varMatch[0].str();
+				std::string repo = p.substr(0, p.find(".git"));
+				fs::path repoPath = buildPath / repo;
+				if (fs::exists(repoPath)) {
+					cout << "💾 " << repoPath <<  endl;
+					// std::string command = "cd" + repoPath.string() + "; git pull";
+					// bool ok = system(command.c_str());
+				} else {
+					string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
+					bool ok = system(command.c_str());
+				}
+				// cout << repo << endl;
+				// cout << f << endl;
+				// cout << varMatch[0].str() << endl;
+				// for (auto & v : varMatch) {
+				// 	cout << v.str() << endl;
+				// }
+			} else {
+				msg("invalid git address : " + f, 31);
+			}
+		} 
+		divider();
 	}
 
 	void divider() {
@@ -131,7 +144,7 @@ std::string sign = R"(
 
 		auto nameYML = config["name"];
 		msg(nameYML.as<string>(), 31);
-		cout << "current path " << std::filesystem::current_path() << endl;
+		msg("current path		" + std::filesystem::current_path().string(), 32);
 
 		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
 		// std::vector<fs::path> pgPaths = 
@@ -149,22 +162,22 @@ std::string sign = R"(
 			divider();
 			std::exit(0);
 		}
+		msg("OF PG path		" + pgPath.string(), 32);
+		cout << endl;
+		// bold("Addons");
+		msg("Addons ", 32);
+		divider();
 
-		// for (auto & s : nodeToStrings("platforms")) {
-		// 	cout << s << endl;
-		// }
-		// for (auto & s : nodeToStrings("templates")) {
-		// 	cout << s << endl;
-		// }
-		// YAML::Node config = YAML::LoadFile("of.yml");
 		for (auto & a : nodeToStrings("addons")) {
-			checkAddon(a);
+			if (a != "") {
+				checkAddon(a);
+			}
 		}
 
-		bold("addons");
-		for (auto & a : addonsStr) {
-			msg(a);
-		}
+		// bold("Addons - git clone");
+		// for (auto & a : addonsStr) {
+		// 	msg(a);
+		// }
 
 		auto items = config["specific_addons"];
 		for(YAML::const_iterator it=items.begin();it!=items.end();++it) {
@@ -174,6 +187,19 @@ std::string sign = R"(
 			// }
 			// std::cout << "Playing at " << it->first.as<std::string>() << " is " << it->second.as<std::string>() << "\n";
 		}
+
+		cout << endl;
+		msg("Platforms ", 32);
+		for (auto & s : nodeToStrings("platforms")) {
+			cout << s << endl;
+		}
+		cout << endl;
+		msg("Templates ", 32);
+		for (auto & s : nodeToStrings("templates")) {
+			cout << s << endl;
+		}
+		cout << endl;
+
  		// auto addons = config["addons"];
 		// for (std::size_t i=0;i<addons.size();i++) {
 		// 	if (const YAML::Node *pName = addons[i].FindValue("git")) {
@@ -183,7 +209,6 @@ std::string sign = R"(
 		// 		checkAddon(addons[i].as<string>());
 		// 	}
 		// }
-		divider();
 
 		vector<string> commands;
 		commands.emplace_back(pgPath.string());
@@ -233,10 +258,10 @@ std::string sign = R"(
 		// list all cloned addons
 		// bold("cloned addons");
 
-		bold("commands");
-		for (auto & c : commands) {
-			msg(c);
-		}
+		// bold("commands");
+		// for (auto & c : commands) {
+		// 	msg(c);
+		// }
 		
 		string command = fmt::format("{}",fmt::join(commands," "));
 		msg (command, 34);
