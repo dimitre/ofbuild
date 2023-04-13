@@ -34,18 +34,18 @@ jobs:
       #     brew install llvm
 
 
-      # - name: Cache Chalet
-      #   id: cache-chalet
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-chalet
-      #   with:
-      #     path: |
-      #       # chalet/**
-      #       chaletbuild/**
-      #     key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-${{ env.cache-name }}-
+      - name: Cache Chalet Build
+        id: cache-chalet-build
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-chalet
+        with:
+          path: |
+            build/**
+            chaletexternal/**
+            dist/**
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-
       # - name: Cache Build
       #   id: cache-build
       #   uses: actions/cache@v3
@@ -61,7 +61,7 @@ jobs:
       # - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
       #   name: Get Chalet
       #   uses: dimitre/get-chalet@v2
-      # - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
+      # - if: ${{ steps.cache-chalet-build.outputs.cache-hit != 'true' }}
       #   name: Move and Link
       #   shell: bash
       #   run: |
@@ -91,11 +91,7 @@ jobs:
         run: |
           brew info --cask chalet
           /usr/local/Caskroom/chalet/0.5.21/chalet  --version
-          /usr/local/Caskroom/chalet/0.5.21/chalet  build
           /usr/local/Caskroom/chalet/0.5.21/chalet  bundle
-          # chalet --version
-          # chalet build
-          # chalet bundle
 
       - name: LS
         shell: bash
