@@ -82,9 +82,16 @@
 		}
 	},
 	"distribution": {
-		"all": {
-			"kind": "bundle",
-			"buildTargets": "*"
+		// "all": {
+		// 	"kind": "bundle",
+		// 	"buildTargets": "*"
+		// },
+		"ofbuild-${targetTriple}": {
+			"kind": "archive",
+			"condition": "[:macos]",
+			"format": "zip",
+			"include": 
+				"*"
 		}
 	}
 }
