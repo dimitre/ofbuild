@@ -91,6 +91,7 @@ jobs:
         run: |
           brew info --cask chalet
           /usr/local/Caskroom/chalet/0.5.21/chalet  --version
+          /usr/local/Caskroom/chalet/0.5.21/chalet -a universal build
           /usr/local/Caskroom/chalet/0.5.21/chalet -a universal bundle
 
       - name: LS
