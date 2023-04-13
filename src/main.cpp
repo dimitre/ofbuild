@@ -58,7 +58,7 @@ std::string sign = R"(
 	}
 
 	void bold(const string & s) {
-		cout << "\e[1m" + s + "\e[0m" << endl;
+		cout << "\x1B[1m" + s + "\x1B[0m" << endl;
 	}
 
 	void checkAddon(const string & f) {

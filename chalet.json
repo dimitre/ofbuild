@@ -70,8 +70,8 @@
 				],
 				"staticLinks": [
 					"fmt",
-					// "yaml"
-					"${externalBuild:yaml}/libyaml-cpp.a"
+					"yaml-cpp"
+					// "${externalBuild:yaml}/libyaml-cpp.a"
 				]
 			},
 			"files": [
