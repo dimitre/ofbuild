@@ -86,11 +86,16 @@ std::string sign = R"(
 			}
 			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
 
-			std::regex findRepository {"([^/]+)(\\.git)?$"};
+			// std::regex findRepository {"([^/]+)?(?:.git)?$"};
+			std::regex findRepository {"^(?:https?:\\/\\/|git@)(?:[^:/]+)[:/]{1}(?:.+)/([^./]+)(?:.git)?$"};
+			
 			std::smatch varMatch;
 			if(std::regex_search(f, varMatch, findRepository)) {
-				std::string p = varMatch[0].str();
-				std::string repo = p.substr(0, p.find(".git"));
+				std::string repo = varMatch[1].str();
+				// for (auto & v : varMatch) {
+				// 	cout << v.str() << endl;
+				// }
+				// cout << "REGEX " << f << " : " << p << endl;
 				fs::path repoPath = buildPath / repo;
 				if (fs::exists(repoPath)) {
 					cout << "💾 " << repoPath <<  endl;
@@ -154,7 +159,9 @@ std::string sign = R"(
 			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
 			ofPath / "apps/pgd/commandLine/bin/projectGenerator"
 		}) {
-			pgPath = p;
+			if (fs::exists(p)) {
+				pgPath = p;
+			}
 		}
 
 		if (pgPath.empty()) {
@@ -212,7 +219,7 @@ std::string sign = R"(
 
 		vector<string> commands;
 		commands.emplace_back(pgPath.string());
-		commands.emplace_back("-o" + ofPath.string());
+		commands.emplace_back("-o\"" + ofPath.string() + "\"");
 
 		if (nodeToStrings("platforms").size()) {
 			string s = "-p\"" + 
@@ -258,10 +265,10 @@ std::string sign = R"(
 		// list all cloned addons
 		// bold("cloned addons");
 
-		// bold("commands");
-		// for (auto & c : commands) {
-		// 	msg(c);
-		// }
+		bold("commands");
+		for (auto & c : commands) {
+			msg(c);
+		}
 		
 		string command = fmt::format("{}",fmt::join(commands," "));
 		msg (command, 34);

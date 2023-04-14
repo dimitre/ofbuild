@@ -102,7 +102,7 @@ jobs:
       - name: "Upload assets (Universal)"
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/ofbuild-universal-apple-darwin.zip
+          files: dist/ofbuild-universal-apple-darwin.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: false

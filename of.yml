@@ -27,4 +27,4 @@ additionalSourceFolders:
   /Volumes/tool/ofw/additional
 
 platforms: ["osx"]
-templates: ["vscode"]
+# templates: ["vscode"]
