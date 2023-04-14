@@ -40,6 +40,7 @@ std::string sign = R"(
 	vector<string> addonsStr;
 
 	void clear() {
+		cout << "clear all " << buildPath << endl;
 		fs::remove_all(buildPath);
 	}
 
@@ -58,6 +59,9 @@ std::string sign = R"(
 	}
 	void msg(const string & s, int color = 32) {
 		cout << colorText(s,color) << endl;
+	}
+	void title(const string & s, int color = 32) {
+		cout << colorText("░░░▒▓█ "+s,color) << endl;
 	}
 
 	void bold(const string & s) {
@@ -125,14 +129,15 @@ std::string sign = R"(
 		cout << "--------------------------------------------------------------------------------------------------------" << endl;
 	}
 
-	void load() {
-
+	void billboard() {
 		divider();
 		msg(sign,32);
 		cout << "Build System for OpenFrameworks v.0.02" << endl;
 		msg("Dimitre Lima http://dmtr.org/", 34);
-		
 		cout << endl;
+	}
+
+	void load() {
 
 		fs::path configFile = "of.yml";
 		if (!fs::exists(configFile)) {
@@ -175,7 +180,7 @@ std::string sign = R"(
 		msg("OF PG path		" + pgPath.string(), 32);
 		cout << endl;
 		// bold("Addons");
-		msg("Addons ", 32);
+		title("Addons ");
 		divider();
 
 		for (auto & a : nodeToStrings("addons")) {
@@ -199,12 +204,12 @@ std::string sign = R"(
 		}
 
 		cout << endl;
-		msg("Platforms ", 32);
+		title("Platforms ");
 		for (auto & s : nodeToStrings("platforms")) {
 			cout << s << endl;
 		}
 		cout << endl;
-		msg("Templates ", 32);
+		title("Templates ");
 		for (auto & s : nodeToStrings("templates")) {
 			cout << s << endl;
 		}
@@ -268,17 +273,22 @@ std::string sign = R"(
 		// list all cloned addons
 		// bold("cloned addons");
 
-		bold("commands");
-		for (auto & c : commands) {
-			msg(c);
-		}
-		
+		// msg("Commands ", 32);
+		// for (auto & c : commands) {
+		// 	cout << c << endl;
+		// 	// msg(c);
+		// }
+
+		title("Invoking PG ");
 		string command = fmt::format("{}",fmt::join(commands," "));
 		msg (command, 34);
+
 
 		bool ok = system(command.c_str());
 		if (ok != 0) {
 			msg ("error");
+		} else {
+			title("PG Done ");
 		}
 
 		// bool ok2 = system("open *.xcodeproj");
@@ -290,6 +300,8 @@ std::string sign = R"(
 } build;
 
 int main(const int argc, const char* argv[]) {
+	build.billboard();
+
 	if (argc == 1) {
 		build.load();
 	}
@@ -304,5 +316,6 @@ int main(const int argc, const char* argv[]) {
 			// cout << "YESSS" << endl;
 		}
 	}
+	build.divider();
 	return 0;
 }
