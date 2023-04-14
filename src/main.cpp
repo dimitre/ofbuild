@@ -33,12 +33,15 @@ std::string sign = R"(
 
 	YAML::Node config;
 	fs::path ofPath;
-	// fs::path buildPath = "builder";
 	// fs::path buildPath = "local_addons";
-	fs::path buildPath = "ofbuild_addons";
+	fs::path buildPath = "build_addons";
 	// FIXME: maybe unneded
 	vector<fs::path> addonsPath;
 	vector<string> addonsStr;
+
+	void clear() {
+		fs::remove_all(buildPath);
+	}
 
 	vector<string> nodeToStrings(const string & index) {
 		auto items = config[index];
@@ -280,9 +283,26 @@ std::string sign = R"(
 
 		// bool ok2 = system("open *.xcodeproj");
 	}
+
+	void open() {
+		system("open *.xcodeproj");
+	}
 } build;
 
 int main(const int argc, const char* argv[]) {
-	build.load();
+	if (argc == 1) {
+		build.load();
+	}
+	if (argc == 2) {
+		string param = argv[1];
+		if (param == "open") {
+			build.load();
+			build.open();
+		}
+		else if (string(argv[1]) == "clear") {
+			build.clear();
+			// cout << "YESSS" << endl;
+		}
+	}
 	return 0;
 }

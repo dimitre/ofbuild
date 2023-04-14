@@ -5,7 +5,7 @@ ofxOpenCv
 ofxNetwork
 ofxSvg
 ofxXmlSettings
-ofbuild_addons/ofxSyphon
-ofbuild_addons/ofxMidi
+build_addons/ofxSyphon
+build_addons/ofxMidi
 ofxMicroUI
-ofbuild_addons/ofxMicroUIMidiController
+build_addons/ofxMicroUIMidiController
