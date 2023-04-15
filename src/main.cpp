@@ -44,6 +44,14 @@ std::string sign = R"(
 		fs::remove_all(buildPath);
 	}
 
+	void make() {
+		system("make -j 8");
+	}
+
+	void makeRun() {
+		system("make -j 8; make RunRelease");
+	}
+
 	vector<string> nodeToStrings(const string & index) {
 		auto items = config[index];
 		vector <string> out;
@@ -164,11 +172,14 @@ std::string sign = R"(
 		fs::path pgPath;
 
 		for (auto & p : {
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator"
+			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
+			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
 		}) {
 			if (fs::exists(p)) {
 				pgPath = p;
+				break;
 			}
 		}
 
@@ -307,9 +318,21 @@ int main(const int argc, const char* argv[]) {
 	}
 	if (argc == 2) {
 		string param = argv[1];
+	
 		if (param == "open") {
 			build.load();
 			build.open();
+		}
+		else if (param == "edit") {
+			system("open of.yml");
+		}
+		else if (param == "make") {
+			build.load();
+			build.make();
+		}
+		else if (param == "makerun") {
+			build.load();
+			build.makeRun();
 		}
 		else if (string(argv[1]) == "clear") {
 			build.clear();
