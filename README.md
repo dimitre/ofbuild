@@ -30,6 +30,7 @@ other options
 ```ofbuild``` : clone local addons, generate the project   
 ```ofbuild clean```  
 ```ofbuild edit``` : opens of.yml in your editor of choice  
+```ofbuild open``` : same as ofbuild then open created project in xcode (maybe rename to ofbuild xcode?)
 ```ofbuild make``` : same as ofbuild then compiles using make  
 ```ofbuild makerun``` : same as ofbuild then compiles and run  
   
