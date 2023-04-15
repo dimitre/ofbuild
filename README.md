@@ -25,16 +25,16 @@ or
 I recommend adding ofbuild to the path so it can be invoked from your project folder.
 in your project folder create a file called ```of.yml``` with the settings similar to ```of.yml``` in this repo.
 
-with the command ```ofbuild``` you generate the project with the configurations specified in of.yml
-other options
-```ofbuild``` : clone local addons, generate the project
-```ofbuild clean```
-```ofbuild edit``` : opens of.yml in your editor of choice
-```ofbuild make``` : same as ofbuild then compiles using make
-```ofbuild makerun``` : same as ofbuild then compiles and run
-
-Naming, parameters, api will potentially change in the next few weeks.
-Ideas are welcome about everything.
+with the command ```ofbuild``` you generate the project with the configurations specified in of.yml  
+other options  
+```ofbuild``` : clone local addons, generate the project   
+```ofbuild clean```  
+```ofbuild edit``` : opens of.yml in your editor of choice  
+```ofbuild make``` : same as ofbuild then compiles using make  
+```ofbuild makerun``` : same as ofbuild then compiles and run  
+  
+Naming, parameters, api will potentially change in the next few weeks.  
+Ideas are welcome about everything.  
 
 # Important
 it works well with the latest projectGenerator from github. updated 15 apr 2023.  
