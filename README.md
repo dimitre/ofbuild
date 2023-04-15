@@ -1,9 +1,10 @@
+```
 ████ ███ ░░░  ▒  ▒ ▒ ▓    ███  TM
 █  █ █   ░  ░ ▒  ▒ ▒ ▓    █  █  
 █  █ ███ ░░░  ▒  ▒ ▒ ▓    █  █  
 █  █ █   ░  ░ ▒  ▒ ▒ ▓    █  █  
 ████ █   ░░░  ▒▒▒▒ ▒ ▓▓▓▓ ███  
-  
+```  
 # OFBUILD (macOS only today)
 Project to build reproduceable templates for openFrameworks projects using recipes.  
 Recipes uses the YAML format, similar to github actions  
@@ -34,6 +35,15 @@ other options
 
 Naming, parameters, api will potentially change in the next few weeks.
 Ideas are welcome about everything.
+
+# Important
+it works well with the latest projectGenerator from github. updated 15 apr 2023.  
+it will try to open the default folders relative to your ofpath, specified in ```of.yml```  
+you can build projectGenerator command line using
+```
+cd $ofw/apps/projectGenerator/commandLine
+make -j 8
+```
 
 # random notes:
 https://textpaint.net
