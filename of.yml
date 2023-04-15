@@ -13,18 +13,11 @@ addons:
 - git@github.com:danomatika/ofxMidi.git
 - git@github.com:dimitre/ofxMicroUI.git
 - git@github.com:dimitre/ofxMicroUIMidiController.git
-- zamis.gaita
 - git@github.com:astellato/ofxSyphon.git
 
-specific_addons:
-- git: git@github.com:astellato/ofxSyphon.git
-  branch: of_head
-- git: git@github.com:dimitre/ofxTools.git
-  branch: experimental
-
 additionalSourceFolders:
-  ../../src
-  /Volumes/tool/ofw/additional
+  # ../../src
+  # /Volumes/tool/ofw/additional
 
-platforms: ["osx"]
-# templates: ["vscode"]
+platforms: ["osx", "vs"]
+templates: ["vscode"]
