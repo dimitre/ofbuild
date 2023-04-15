@@ -99,13 +99,13 @@ jobs:
         run: |
           ls -alFR
 
-      - name: "Upload assets (Universal)"
-        uses: softprops/action-gh-release@v1
-        with:
-          files: dist/ofbuild-universal-apple-darwin.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          prerelease: false
+      # - name: "Upload assets (Universal)"
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: dist/ofbuild-universal-apple-darwin.zip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     draft: true
+      #     prerelease: false
 
       # - name: Update Release
       #   uses: johnwbyrd/update-release@v1.0.0
