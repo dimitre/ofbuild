@@ -117,7 +117,10 @@ std::string sign = R"(
 					// std::string command = "cd" + repoPath.string() + "; git pull";
 					// bool ok = system(command.c_str());
 				} else {
-					string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
+					// string command = "cd "+ buildPath.string() + "; git clone --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
+					string command = "cd "+ buildPath.string() + "; git clone " + f ; //+ " --single-branch --config \"advice.detachedHead=false\" --depth 1 " ;
+					cout << ">>>> " << endl;
+					cout << command << endl;
 					bool ok = system(command.c_str());
 				}
 				// cout << repo << endl;
@@ -127,7 +130,12 @@ std::string sign = R"(
 				// 	cout << v.str() << endl;
 				// }
 			} else {
-				msg("invalid git address : " + f, 31);
+				msg("OFBUILD: invalid git address regex : " + f, 31);
+					string command = "cd "+ buildPath.string() + "; git clone " + f ; //+ " --single-branch --config \"advice.detachedHead=false\" --depth 1 " ;
+					cout << ">>>> " << endl;
+					cout << command << endl;
+					bool ok = system(command.c_str());
+
 			}
 		} 
 		divider();
@@ -140,7 +148,7 @@ std::string sign = R"(
 	void billboard() {
 		divider();
 		msg(sign,32);
-		cout << "Build System for OpenFrameworks v.0.02" << endl;
+		cout << "Build System for OpenFrameworks v.0.03" << endl;
 		msg("Dimitre Lima http://dmtr.org/", 34);
 		cout << endl;
 	}
@@ -316,12 +324,17 @@ int main(const int argc, const char* argv[]) {
 	if (argc == 1) {
 		build.load();
 	}
+	// change here to any number of parameters.
+	
 	if (argc == 2) {
 		string param = argv[1];
-	
 		if (param == "open") {
 			build.load();
 			build.open();
+		}
+		else if (param == "xcodebuild") {
+			build.load();
+			system("xcodebuild");
 		}
 		else if (param == "edit") {
 			system("open of.yml");
@@ -334,9 +347,8 @@ int main(const int argc, const char* argv[]) {
 			build.load();
 			build.makeRun();
 		}
-		else if (string(argv[1]) == "clear") {
+		else if (param == "clear") {
 			build.clear();
-			// cout << "YESSS" << endl;
 		}
 	}
 	build.divider();
