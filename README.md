@@ -33,6 +33,7 @@ other options
 ```ofbuild open``` : same as ofbuild then open created project in xcode (maybe rename to ofbuild xcode?)
 ```ofbuild make``` : same as ofbuild then compiles using make  
 ```ofbuild makerun``` : same as ofbuild then compiles and run  
+```ofbuild xcodebuild``` : build template and run xcodebuild  
   
 Naming, parameters, api will potentially change in the next few weeks.  
 Ideas are welcome about everything.  
