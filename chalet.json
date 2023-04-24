@@ -86,8 +86,8 @@
 		// 	"kind": "bundle",
 		// 	"buildTargets": "*"
 		// },
-		// "ofbuild-${targetTriple}": {
-		"ofbuild": {
+		"ofbuild-${targetTriple}": {
+		// "ofbuild": {
 			"kind": "archive",
 			"condition": "[:macos]",
 			"format": "zip",
