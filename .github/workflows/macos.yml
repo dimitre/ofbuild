@@ -99,21 +99,21 @@ jobs:
         run: |
           ls -alFR
 
-      - name: "Upload assets (Universal)"
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./dist/ofbuild-universal-apple-darwin.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          prerelease: false
-
-      # - name: Update Release
-      #   uses: johnwbyrd/update-release@v1.0.0
+      # - name: "Upload assets (Universal)"
+      #   uses: softprops/action-gh-release@v1
       #   with:
+      #     files: ./dist/ofbuild-universal-apple-darwin.zip
       #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     tag: nightly
-      #     release: nightly
+      #     draft: true
       #     prerelease: false
-      #     files: dist/ofbuild-universal-apple-darwin.zip
-      #   if: github.repository == 'openframeworks/apothecary' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+      - name: Update Release
+        uses: johnwbyrd/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: nightly
+          release: nightly
+          prerelease: false
+          files: dist/ofbuild-universal-apple-darwin.zip
+        # if: github.repository == 'openframeworks/apothecary' && github.event_name == 'push' && github.ref == 'refs/heads/master'
       
