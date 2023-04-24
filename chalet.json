@@ -1,7 +1,7 @@
 
 
 {
-	"name": "ofproj",
+	"name": "builder",
 	"version": "1.0.0",
 	"externalDependencies": {
 		"fmt": {
@@ -86,12 +86,13 @@
 		// 	"kind": "bundle",
 		// 	"buildTargets": "*"
 		// },
-		"ofbuild-${targetTriple}": {
+		// "ofbuild-${targetTriple}": {
+		"ofbuild": {
 			"kind": "archive",
 			"condition": "[:macos]",
 			"format": "zip",
 			"include": 
-				"*"
+				"build/universal-apple-darwin_Release/ofbuild"
 		}
 	}
 }
