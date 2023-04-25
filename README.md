@@ -47,6 +47,33 @@ cd $ofw/apps/projectGenerator/commandLine
 make -j 8
 ```
 
+# of.yml sample
+```yaml
+name: AeroFractal
+
+ofpath: /Volumes/tool/ofw
+
+addons:
+- ofxAssimpModelLoader
+- ofxKinect
+- ofxGui
+- ofxOpenCV
+- ofxNetwork
+- ofxSvg
+- ofxXmlSettings
+- git@github.com:danomatika/ofxMidi.git
+- git@github.com:dimitre/ofxMicroUI.git
+- git@github.com:dimitre/ofxMicroUIMidiController.git
+- git@github.com:astellato/ofxSyphon.git
+
+additionalSourceFolders:
+  # ../../src
+  # /Volumes/tool/ofw/additional
+
+platforms: ["osx", "vs"]
+templates: ["vscode"]
+```
+
 # random notes:
 https://textpaint.net
 
