@@ -1,0 +1,71 @@
+{
+	"options": {
+		"dumpAssembly": false,
+		"showCommands": false,
+		"benchmark": true,
+		"launchProfiler": true,
+		"keepGoing": false,
+		"generateCompileCommands": false,
+		"maxJobs": 8,
+		"toolchain": "apple-llvm",
+		"configuration": "Release",
+		"architecture": "universal",
+		"inputFile": "chalet.json",
+		"envFile": ".env",
+		"rootDir": "",
+		"outputDir": "build",
+		"externalDir": "chalet_external",
+		"distributionDir": "dist",
+		"signingIdentity": "",
+		"runTarget": "ofbuild",
+		"runArguments": {
+			"ofbuild": ""
+		}
+	},
+	"toolchains": {
+		"apple-llvm": {
+			"version": "14.0.0",
+			"strategy": "ninja",
+			"buildPathStyle": "target-triple",
+			"compilerCpp": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++",
+			"compilerC": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+			"compilerWindowsResource": "/opt/homebrew/opt/llvm/bin/llvm-rc",
+			"linker": "/Applications/Xcode.app/Contents/Developer/usr/bin/ld",
+			"archiver": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool",
+			"profiler": "",
+			"disassembler": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool",
+			"cmake": "/opt/homebrew/bin/cmake",
+			"make": "/Applications/Xcode.app/Contents/Developer/usr/bin/make",
+			"ninja": "/opt/homebrew/bin/ninja"
+		}
+	},
+	"tools": {
+		"bash": "/bin/bash",
+		"codesign": "/usr/bin/codesign",
+		"git": "/Applications/Xcode.app/Contents/Developer/usr/bin/git",
+		"hdiutil": "/usr/bin/hdiutil",
+		"install_name_tool": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/install_name_tool",
+		"instruments": "",
+		"ldd": "",
+		"osascript": "/usr/bin/osascript",
+		"otool": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool",
+		"plutil": "/usr/bin/plutil",
+		"powershell": "",
+		"sample": "/Applications/Xcode.app/Contents/Developer/usr/bin/sample",
+		"sips": "/usr/bin/sips",
+		"tar": "/usr/bin/tar",
+		"tiffutil": "/usr/bin/tiffutil",
+		"xcodebuild": "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild",
+		"xcrun": "/usr/bin/xcrun",
+		"zip": "/usr/bin/zip"
+	},
+	"appleSdks": {
+		"macosx": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk",
+		"iphoneos": "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk",
+		"iphonesimulator": "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator16.2.sdk",
+		"appletvos": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk",
+		"appletvsimulator": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator16.1.sdk",
+		"watchos": "/Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk",
+		"watchsimulator": "/Applications/Xcode.app/Contents/Developer/Platforms/WatchSimulator.platform/Developer/SDKs/WatchSimulator9.1.sdk"
+	}
+}
