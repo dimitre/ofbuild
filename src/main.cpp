@@ -179,12 +179,14 @@ std::string sign = R"(
 		// std::vector<fs::path> pgPaths = 
 		fs::path pgPath;
 
-		for (auto & p : {
+		fs::path pgPaths[2] = { 
 			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
 			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-		}) {
+			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
+			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
+		};
+
+		for (auto & p : pgPaths) {
 			if (fs::exists(p)) {
 				pgPath = p;
 				break;
@@ -192,7 +194,9 @@ std::string sign = R"(
 		}
 
 		if (pgPath.empty()) {
-			msg("projectGenerator path does not exist \n" , 31);
+			msg("projectGenerator path does not exist \n" + 
+			pgPaths[0].string() + "\n" + 
+			pgPaths[1].string() , 31);
 			divider();
 			std::exit(0);
 		}
