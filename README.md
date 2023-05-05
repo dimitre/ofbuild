@@ -11,16 +11,15 @@ Recipes uses the YAML format, similar to github actions
 
 # Install
 Soon we will have automatic releases on github but now you can build from source
-it uses chalet build tool (https://www.chalet-work.space) to compile dependencies, so you can install from source there or install via 
-```sh
-brew install --cask https://raw.githubusercontent.com/dimitre/chalet_homebrew/main/chalet.rb
-
+install needed libs using brew
+```
+brew install pkg-config yaml-cpp fmt
 ```
 
-you compile by entering ofbuild directory and use one of the following commands:
-```chalet build ``` compiles app and places in a folder like ./build/arm64-apple-darwin_Release/
-or
-```chalet bundle``` creates a zip file with the app in ./dist folder
+compile ofbuild
+```
+g++ -std=c++17 `pkg-config --libs --cflags fmt yaml-cpp` src/main.cpp -o ofbuild -O3
+```
 
 I recommend adding ofbuild to the path so it can be invoked from your project folder.
 in your project folder create a file called ```of.yml``` with the settings similar to ```of.yml``` in this repo.
