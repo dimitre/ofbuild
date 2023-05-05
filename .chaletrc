@@ -9,7 +9,7 @@
 		"maxJobs": 8,
 		"toolchain": "apple-llvm",
 		"configuration": "Release",
-		"architecture": "universal",
+		"architecture": "arm64",
 		"inputFile": "chalet.json",
 		"envFile": ".env",
 		"rootDir": "",

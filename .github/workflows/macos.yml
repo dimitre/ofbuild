@@ -1,111 +1,36 @@
-name: ChaletTest
+name: OFBUILD
 
 on: [push, pull_request]
-
 jobs:
-  # build:
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu-latest, macos-latest, windows-latest]
-
-  #   runs-on: ${{ matrix.os }}
-
-
-
   build_version:
     strategy:
       fail-fast: false
       matrix:
         # os: [ubuntu-latest, macos-latest]
         os: [macos-latest]
-        # os: [ubuntu-latest] , 
+        # os: [ubuntu-latest] ,
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
 
-      # - if: runner.os == 'macOS'
-      #   name: Brew LLVM
-      #   shell: bash
-      #   run: |
-      #     brew update
-      #     brew install llvm
-
-
-      - name: Cache Chalet Build
-        id: cache-chalet-build
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-chalet
-        with:
-          path: |
-            build/**
-            chaletexternal/**
-            dist/**
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('chaletbuild/**/*.cpp') }}
-          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-
-      # - name: Cache Build
-      #   id: cache-build
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-build
-      #   with:
-      #     path: |
-      #       chalet_external/**
-      #       build/**
-      #     key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('build/**/*.cpp') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-${{ env.cache-name }}-
-      # - if: ${{ steps.cache-chalet.outputs.cache-hit != 'true' }}
-      #   name: Get Chalet
-      #   uses: dimitre/get-chalet@v2
-      # - if: ${{ steps.cache-chalet-build.outputs.cache-hit != 'true' }}
-      #   name: Move and Link
-      #   shell: bash
-      #   run: |
-      #     mv chalet chaletbuild
-      #     mv ./chaletbuild/build/
-      #     # ./chaletbuild/build/**/chalet --version
-      #     ./chalet --version
-
-      # - name: Is this love?
-      #   shell: bash
-      #   run: |
-      #     ln -s ./chaletbuild/build/**/chalet .
-      #     ./chalet --version
-      #     # pwd
-      #     # ls
-      #     # ./chalet configure -t llvm -a auto
-      #     ./chalet build
-      #     ./chalet bundle
-      #     # ls -alF
-
-      - name: Chalet Install
+      - name: brew
         shell: bash
-        run: brew install --cask https://raw.githubusercontent.com/dimitre/chalet_homebrew/main/chalet.rb
+        run: brew install brew install pkg-config yaml-cpp fmt
 
-      - name: Is this love?
+      - name: compile
         shell: bash
-        run: |
-          brew info --cask chalet
-          /usr/local/Caskroom/chalet/0.5.21/chalet  --version
-          /usr/local/Caskroom/chalet/0.5.21/chalet -a universal build
-          /usr/local/Caskroom/chalet/0.5.21/chalet -a universal bundle
+        run: g++ -std=c++17 `pkg-config --libs --cflags fmt yaml-cpp` src/main.cpp -o ofbuild -O3
+
+      - name: zip
+        shell: bash
+        run: zip ofbuild.zip ofbuild
 
       - name: LS
         shell: bash
         run: |
           ls -alFR
-
-      # - name: "Upload assets (Universal)"
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     files: ./dist/ofbuild-universal-apple-darwin.zip
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     draft: true
-      #     prerelease: false
 
       - name: Update Release
         uses: johnwbyrd/update-release@v1.0.0
@@ -114,6 +39,5 @@ jobs:
           tag: nightly
           release: nightly
           prerelease: false
-          files: dist/ofbuild-universal-apple-darwin.zip
-        # if: github.repository == 'openframeworks/apothecary' && github.event_name == 'push' && github.ref == 'refs/heads/master'
-      
+          files: ofbuild.zip
+

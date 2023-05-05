@@ -180,10 +180,10 @@ std::string sign = R"(
 		fs::path pgPath;
 
 		fs::path pgPaths[2] = { 
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
 			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
 			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
-			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
 		};
 
 		for (auto & p : pgPaths) {
