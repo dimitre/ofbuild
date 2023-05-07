@@ -38,6 +38,7 @@ std::string sign = R"(
 	// FIXME: maybe unneded
 	vector<fs::path> addonsPath;
 	vector<string> addonsStr;
+	vector<string> sourcesStr;
 
 	void clear() {
 		cout << "clear all " << buildPath << endl;
@@ -156,18 +157,56 @@ std::string sign = R"(
 	void load() {
 
 		fs::path configFile = "of.yml";
+		bool hasConfig = false;
+
+		// check if of.yml file is present.
 		if (!fs::exists(configFile)) {
 			msg("missing of.yml file " + ofPath.string(), 31);
+			divider();
+			// std::exit(0);
+			ofPath = "../../..";
+		} else {
+			hasConfig = true;
+			config = YAML::LoadFile(configFile);
+			auto ofPathYML = config["ofpath"];
+			ofPath = ofPathYML.as<string>();
+			if (!fs::exists(ofPath)) {
+				msg("ofpath does not exist " + ofPath.string(), 31);
+				divider();
+				std::exit(0);
+			}
+		}
+
+
+		fs::path pgPath;
+		fs::path pgPaths[4] = { 
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
+			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
+			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
+			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
+		};
+
+		// try to find PG in different paths, choose the first found.
+		for (auto & p : pgPaths) {
+			if (fs::exists(p)) {
+				pgPath = p;
+				break;
+			}
+		}
+
+		// exit if pg Path doesn't exist.
+		if (pgPath.empty()) {
+			msg("projectGenerator path does not exist \n" + 
+			pgPaths[0].string() + "\n" + 
+			pgPaths[1].string() , 31);
 			divider();
 			std::exit(0);
 		}
 
-		config = YAML::LoadFile(configFile);
-		auto ofPathYML = config["ofpath"];
-		ofPath = ofPathYML.as<string>();
-		if (!fs::exists(ofPath)) {
-			msg("ofpath does not exist " + ofPath.string(), 31);
-			divider();
+		if (!hasConfig) {
+			// invoke pg.
+			string command = pgPath.string() + " -o../../.. . ";
+			system(command.c_str());
 			std::exit(0);
 		}
 
@@ -177,29 +216,8 @@ std::string sign = R"(
 
 		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
 		// std::vector<fs::path> pgPaths = 
-		fs::path pgPath;
 
-		fs::path pgPaths[2] = { 
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
-			// ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-		};
 
-		for (auto & p : pgPaths) {
-			if (fs::exists(p)) {
-				pgPath = p;
-				break;
-			}
-		}
-
-		if (pgPath.empty()) {
-			msg("projectGenerator path does not exist \n" + 
-			pgPaths[0].string() + "\n" + 
-			pgPaths[1].string() , 31);
-			divider();
-			std::exit(0);
-		}
 		msg("OF PG path		" + pgPath.string(), 32);
 		cout << endl;
 		// bold("Addons");
@@ -235,6 +253,14 @@ std::string sign = R"(
 		title("Templates ");
 		for (auto & s : nodeToStrings("templates")) {
 			cout << s << endl;
+		}
+
+		title("Additional Source Directories ");
+		for (auto & a : nodeToStrings("sources")) {
+			if (a != "") {
+				sourcesStr.emplace_back(a);
+				cout << a << endl;
+			}
 		}
 		cout << endl;
 
@@ -290,6 +316,14 @@ std::string sign = R"(
 			+ "\"";
 			commands.emplace_back(s); 
 		}
+
+		if (sourcesStr.size()) {
+			string s = "-s\"" + 
+			fmt::format("{}",fmt::join(sourcesStr,","))
+			+ "\"";
+			commands.emplace_back(s); 
+		}
+
 		commands.emplace_back(".");
 
 		//xaxa
