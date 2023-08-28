@@ -1,7 +1,7 @@
 ofxAssimpModelLoader
 ofxKinect
 ofxGui
-ofxOpenCv
+ofxOpenCV
 ofxNetwork
 ofxSvg
 ofxXmlSettings

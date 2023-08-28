@@ -1,3 +1,4 @@
+#define VERSION "Build System for OpenFrameworks v.0.05"
 
 #include <fmt/format.h>
 #include <yaml-cpp/yaml.h>
@@ -6,6 +7,7 @@
 #include <filesystem>
 #include <vector>
 #include <regex>
+#include <fstream>
 
 using std::cout;
 using std::endl;
@@ -39,6 +41,22 @@ std::string sign = R"(
 	vector<fs::path> addonsPath;
 	vector<string> addonsStr;
 	vector<string> sourcesStr;
+
+	void import() {
+		msg("not yet implemented", 32);
+		// parse addons.make line by line
+		// create of.yml prepending "  - " to each line
+
+		// std::ifstream file(FILENAME);
+		// if (file.is_open()) {
+		// 	std::string line;
+		// 	while (std::getline(file, line)) {
+		// 		// using printf() in all tests for consistency
+		// 		printf("%s", line.c_str());
+		// 	}
+		// 	file.close();
+		// }
+	}
 
 	void clear() {
 		cout << "clear all " << buildPath << endl;
@@ -149,7 +167,7 @@ std::string sign = R"(
 	void billboard() {
 		divider();
 		msg(sign,32);
-		cout << "Build System for OpenFrameworks v.0.03" << endl;
+		cout << VERSION << endl;
 		msg("Dimitre Lima http://dmtr.org/", 34);
 		cout << endl;
 	}
@@ -179,39 +197,55 @@ std::string sign = R"(
 
 
 		fs::path pgPath;
-		fs::path pgPaths[4] = { 
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator",
-			ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
-			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
-			ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator"
-		};
 
-		// try to find PG in different paths, choose the first found.
-		for (auto & p : pgPaths) {
-			if (fs::exists(p)) {
-				pgPath = p;
-				break;
+		if (config["pgPath"]) {
+			pgPath = config["pgPath"].as<string>();
+		} else {
+			fs::path pgPaths[5] = { 
+				ofPath / "apps/pgd/commandLine/bin/projectGenerator",
+				ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
+				ofPath / "apps/pgd/commandLine/bin/commandLine.app/Contents/MacOS/commandLine",
+				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
+				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
+			};
+
+			
+
+
+			// try to find PG in different paths, choose the first found.
+			for (auto & p : pgPaths) {
+				// cout << "try " << p << endl;
+				if (fs::exists(p)) {
+					pgPath = p;
+					// cout << "found pgpath = " << pgPath << endl;
+					break;
+				}
+			}
+
+			// exit if pg Path doesn't exist.
+			if (pgPath.empty()) {
+				msg("projectGenerator path does not exist \n" + 
+				pgPaths[0].string() + "\n" + 
+				pgPaths[1].string() , 31);
+				divider();
+				std::exit(0);
 			}
 		}
 
-		// exit if pg Path doesn't exist.
-		if (pgPath.empty()) {
-			msg("projectGenerator path does not exist \n" + 
-			pgPaths[0].string() + "\n" + 
-			pgPaths[1].string() , 31);
-			divider();
-			std::exit(0);
-		}
 
 		if (!hasConfig) {
 			// invoke pg.
 			string command = pgPath.string() + " -o../../.. . ";
+			cout << command << endl;
 			system(command.c_str());
+			msg("no of.yml present. use `ofbuild import` to create one from addons.make", 32);
 			std::exit(0);
 		}
 
-		auto nameYML = config["name"];
-		msg(nameYML.as<string>(), 31);
+		if (config["name"]) {
+			auto nameYML = config["name"];
+			msg(nameYML.as<string>(), 31);
+		}
 		msg("current path		" + std::filesystem::current_path().string(), 32);
 
 		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
@@ -324,7 +358,11 @@ std::string sign = R"(
 			commands.emplace_back(s); 
 		}
 
-		commands.emplace_back(".");
+		if (!config["projectPath"]) {
+			commands.emplace_back(".");
+		} else {
+			commands.emplace_back(config["projectPath"].as<string>());
+		}
 
 		//xaxa
 		// list all cloned addons
@@ -352,7 +390,9 @@ std::string sign = R"(
 	}
 
 	void open() {
-		system("open *.xcodeproj");
+		std::string command = "open *.xcodeproj";
+		cout << command << endl;
+		system(command.c_str());
 	}
 } build;
 
@@ -366,9 +406,16 @@ int main(const int argc, const char* argv[]) {
 	
 	if (argc == 2) {
 		string param = argv[1];
-		if (param == "open") {
+
+		if (param == "import") {
+			build.import();
 			build.load();
+		}
+		else if (param == "open") {
+			build.load();
+			cout << "end load" << endl;
 			build.open();
+			cout << "end open" << endl;
 		}
 		else if (param == "xcodebuild") {
 			build.load();
