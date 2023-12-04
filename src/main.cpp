@@ -4,7 +4,11 @@
 #include <yaml-cpp/yaml.h>
 
 #include <iostream>
-#include <filesystem>
+#if __has_include(<filesystem>)
+	#include <filesystem>
+#else
+	#include <experimental/filesystem>
+#endif	
 #include <vector>
 #include <regex>
 #include <fstream>
