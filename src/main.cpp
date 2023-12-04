@@ -14,7 +14,9 @@ using std::endl;
 using std::string;
 using std::vector;
 
-namespace fs = std::filesystem;
+// namespace fs = std::filesystem;
+namespace fs = std::__fs::filesystem;
+
 
 struct builder {
 public:
@@ -246,7 +248,7 @@ std::string sign = R"(
 			auto nameYML = config["name"];
 			msg(nameYML.as<string>(), 31);
 		}
-		msg("current path		" + std::filesystem::current_path().string(), 32);
+		msg("current path		" + fs::current_path().string(), 32);
 
 		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
 		// std::vector<fs::path> pgPaths = 
