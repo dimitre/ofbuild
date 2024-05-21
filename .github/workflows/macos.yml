@@ -1,4 +1,4 @@
-name: OFBUILD
+name: ofbuild
 
 on: [push, pull_request]
 jobs:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: brew
         shell: bash
@@ -32,12 +32,19 @@ jobs:
         run: |
           ls -alFR
 
-      - name: Update Release
-        uses: johnwbyrd/update-release@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: nightly
-          release: nightly
-          prerelease: false
-          files: ofbuild.zip
+      # - name: Update Release
+      #   uses: johnwbyrd/update-release@v1.0.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: nightly
+      #     release: nightly
+      #     prerelease: false
+      #     files: ofbuild.zip
 
+      - name: "Upload assets"
+        uses: softprops/action-gh-release@v2.0.5
+        with:
+          files: ./ofbuild.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          prerelease: false
