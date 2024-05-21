@@ -3,6 +3,8 @@ name: ofbuild
 on: [push, pull_request]
 jobs:
   build_version:
+    timeout-minutes: 10
+
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +48,8 @@ jobs:
         uses: softprops/action-gh-release@v2.0.5
         with:
           files: ./ofbuild.zip
-          # token: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.pat }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # token: ${{ secrets.pat }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: false
