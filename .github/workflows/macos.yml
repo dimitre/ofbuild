@@ -30,7 +30,8 @@ jobs:
       - name: LS
         shell: bash
         run: |
-          ls -alFR
+          # ls -alFR
+          ls -alF
 
       # - name: Update Release
       #   uses: johnwbyrd/update-release@v1.0.0
@@ -45,6 +46,7 @@ jobs:
         uses: softprops/action-gh-release@v2.0.5
         with:
           files: ./ofbuild.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.pat }}
           draft: true
           prerelease: false
