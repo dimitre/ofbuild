@@ -1,6 +1,7 @@
 #define VERSION "Build System for OpenFrameworks v.0.05"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <yaml-cpp/yaml.h>
 
 #include <iostream>
