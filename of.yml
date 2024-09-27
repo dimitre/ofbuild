@@ -10,10 +10,10 @@ addons:
 - ofxNetwork
 - ofxSvg
 - ofxXmlSettings
-- git@github.com:danomatika/ofxMidi.git
-- git@github.com:dimitre/ofxMicroUI.git
-- git@github.com:dimitre/ofxMicroUIMidiController.git
-- git@github.com:astellato/ofxSyphon.git
+# - git@github.com:danomatika/ofxMidi.git
+# - git@github.com:dimitre/ofxMicroUI.git
+# - git@github.com:dimitre/ofxMicroUIMidiController.git
+# - git@github.com:astellato/ofxSyphon.git
 
 additionalSourceFolders:
   # ../../src
