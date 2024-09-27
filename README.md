@@ -10,7 +10,12 @@ Project to build reproduceable templates for openFrameworks projects using recip
 Recipes uses the YAML format, similar to github actions  
 
 # Install
-Soon we will have automatic releases on github but now you can build from source
+```
+brew tap dimitre/ofbuild
+brew install ofbuild
+```
+
+~~~Soon we will have automatic releases on github but now you can build from source
 install needed libs using brew
 ```
 brew install pkg-config yaml-cpp fmt
@@ -20,8 +25,9 @@ compile ofbuild
 ```
 g++ -std=c++17 `pkg-config --libs --cflags fmt yaml-cpp` src/main.cpp -o ofbuild -O3
 ```
-
 I recommend adding ofbuild to the path so it can be invoked from your project folder.
+~~~
+
 in your project folder create a file called ```of.yml``` with the settings similar to ```of.yml``` in this repo.
 
 with the command ```ofbuild``` you generate the project with the configurations specified in of.yml  
