@@ -15,19 +15,6 @@ brew tap dimitre/ofbuild
 brew install ofbuild
 ```
 
-~~~Soon we will have automatic releases on github but now you can build from source
-install needed libs using brew
-```
-brew install pkg-config yaml-cpp fmt
-```
-
-compile ofbuild
-```
-g++ -std=c++17 `pkg-config --libs --cflags fmt yaml-cpp` src/main.cpp -o ofbuild -O3
-```
-I recommend adding ofbuild to the path so it can be invoked from your project folder.
-~~~
-
 in your project folder create a file called ```of.yml``` with the settings similar to ```of.yml``` in this repo.
 
 with the command ```ofbuild``` you generate the project with the configurations specified in of.yml  
@@ -49,7 +36,7 @@ it will try to open the default folders relative to your ofpath, specified in ``
 you can build projectGenerator command line using
 ```
 cd $ofw/apps/projectGenerator/commandLine
-make -j 8
+make -j
 ```
 
 # of.yml sample
