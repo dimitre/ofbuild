@@ -45,14 +45,14 @@ jobs:
       #     prerelease: false
       #     files: ofbuild.zip
 
-      - name: "Upload assets"
+      - name: Release
         uses: softprops/action-gh-release@v2.0.8
         with:
           files: ./ofbuild.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           # token: ${{ secrets.pat }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
           prerelease: false
 
           
