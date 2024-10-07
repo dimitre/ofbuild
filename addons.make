@@ -5,5 +5,4 @@ ofxOpenCV
 ofxNetwork
 ofxSvg
 ofxXmlSettings
-build_addons/ofxSyphon
 ofxMicroUI

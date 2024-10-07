@@ -1,4 +1,4 @@
-#define VERSION "Build System for OpenFrameworks v0.0.7"
+#define VERSION "Build System for OpenFrameworks v0.0.8"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
@@ -50,19 +50,32 @@ std::string sign = R"(
 	vector<string> sourcesStr;
 
 	void import() {
-		msg("not yet implemented", 32);
-		// parse addons.make line by line
-		// create of.yml prepending "  - " to each line
+		// msg("not yet implemented", 32);
+		// exit(0);
+		if (fs::exists("of.yml")) {
+			msg("of.yml already present", 32);
+		} else {
+			std::ifstream file("addons.make");
+			YAML::Node node;
+			node["ofpath"] = "../../..";
+			if (file.is_open()) {
+				std::string line;
+				while (std::getline(file, line)) {
+					// msg(line, 33);
+					node["addons"].push_back(line);
+				}
+			}
+			file.close();
+			// std::string saida = node.as<std::string>();
+			cout << node << endl;
 
-		// std::ifstream file(FILENAME);
-		// if (file.is_open()) {
-		// 	std::string line;
-		// 	while (std::getline(file, line)) {
-		// 		// using printf() in all tests for consistency
-		// 		printf("%s", line.c_str());
-		// 	}
-		// 	file.close();
-		// }
+			std::ofstream ofYml("of.yml");
+    		ofYml << node;
+		    ofYml.close();
+			cout << endl;
+			msg("ok, of.yml created from addons.make", 32);
+		}
+		std::exit(0);
 	}
 
 	void clear() {
@@ -71,11 +84,11 @@ std::string sign = R"(
 	}
 
 	void make() {
-		system("make -j 8");
+		system("make -j");
 	}
 
 	void makeRun() {
-		system("make -j 8; make RunRelease");
+		system("make -j; make RunRelease");
 	}
 
 	vector<string> nodeToStrings(const string & index) {
@@ -106,7 +119,7 @@ std::string sign = R"(
 
 		// if (f.substr(0,3) == "git") 
 
-		if (fs::exists(ofPath / "addons" / f)) {
+		if (fs::exists(ofPath / "addons" / f) || fs::exists(f)) {
 			// cout << "core addon ----" << f << endl;
 			// cout << "::: " << f << endl;
 			cout << "🏠 " << f <<  endl;
@@ -126,7 +139,6 @@ std::string sign = R"(
 				fs::create_directory(buildPath);
 			}
 			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
-
 			// std::regex findRepository {"([^/]+)?(?:.git)?$"};
 			std::regex findRepository {"^(?:https?:\\/\\/|git@)(?:[^:/]+)[:/]{1}(?:.+)/([^./]+)(?:.git)?$"};
 			
@@ -202,38 +214,37 @@ std::string sign = R"(
 			}
 		}
 
-
 		fs::path pgPath;
 
 		if (config["pgPath"]) {
 			pgPath = config["pgPath"].as<string>();
 		} else {
-			fs::path pgPaths[5] = { 
+			vector <fs::path> pgPaths { 
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/commandLine.app/Contents/MacOS/commandLine",
 				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
 				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
+				ofPath / "apps/pgd/commandLine/bin/commandLineDebug.app/Contents/MacOS/commandLine",
 			};
-
-			
-
 
 			// try to find PG in different paths, choose the first found.
 			for (auto & p : pgPaths) {
-				// cout << "try " << p << endl;
 				if (fs::exists(p)) {
 					pgPath = p;
 					// cout << "found pgpath = " << pgPath << endl;
 					break;
+				} else {
 				}
 			}
 
 			// exit if pg Path doesn't exist.
 			if (pgPath.empty()) {
-				msg("projectGenerator path does not exist \n" + 
-				pgPaths[0].string() + "\n" + 
-				pgPaths[1].string() , 31);
+				std::string message = "projectGenerator path does not exist \n";
+				for (auto & p : pgPaths) {
+					message += p.string() + "\n";
+				}
+				msg(message, 31);
 				divider();
 				std::exit(0);
 			}
