@@ -1,4 +1,4 @@
-#define VERSION "Build System for OpenFrameworks v0.0.8"
+#define VERSION "Build System for OpenFrameworks v0.0.7"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
