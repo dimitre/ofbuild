@@ -1,4 +1,4 @@
-#define VERSION "Build System for OpenFrameworks v0.0.7"
+#define VERSION "Build System for OpenFrameworks v0.0.8"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
@@ -92,10 +92,12 @@ std::string sign = R"(
 	}
 
 	vector<string> nodeToStrings(const string & index) {
-		auto items = config[index];
 		vector <string> out;
-		for (std::size_t i=0;i<items.size();i++) {
-			out.emplace_back(items[i].as<string>());
+		if (config[index]) {
+			auto items = config[index];
+			for (std::size_t i=0;i<items.size();i++) {
+				out.emplace_back(items[i].as<string>());
+			}
 		}
 		return out;
 	}
@@ -117,11 +119,7 @@ std::string sign = R"(
 
 	void checkAddon(const string & f) {
 
-		// if (f.substr(0,3) == "git") 
-
 		if (fs::exists(ofPath / "addons" / f) || fs::exists(f)) {
-			// cout << "core addon ----" << f << endl;
-			// cout << "::: " << f << endl;
 			cout << "🏠 " << f <<  endl;
 
 			addonsStr.emplace_back(f);
@@ -205,8 +203,14 @@ std::string sign = R"(
 		} else {
 			hasConfig = true;
 			config = YAML::LoadFile(configFile);
-			auto ofPathYML = config["ofpath"];
-			ofPath = ofPathYML.as<string>();
+			if (config["ofpath"]) {  // use ofpath only if the key exists.
+				auto ofPathYML = config["ofpath"];
+				ofPath = ofPathYML.as<string>();
+			} else {
+				ofPath = "../../..";
+			}
+
+			
 			if (!fs::exists(ofPath)) {
 				msg("ofpath does not exist " + ofPath.string(), 31);
 				divider();
