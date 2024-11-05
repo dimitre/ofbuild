@@ -1,4 +1,4 @@
-#define VERSION "Build System for OpenFrameworks v0.0.8"
+#define VERSION "Build System for OpenFrameworks v0.0.9"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
@@ -227,9 +227,11 @@ std::string sign = R"(
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/commandLine.app/Contents/MacOS/commandLine",
+				ofPath / "apps/pgd/commandLine/bin/commandLineDebug.app/Contents/MacOS/commandLine",
 				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator",
 				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
-				ofPath / "apps/pgd/commandLine/bin/commandLineDebug.app/Contents/MacOS/commandLine",
+				ofPath / "apps/projectGenerator/commandLine/bin/commandLine.app/Contents/MacOS/projectGenerator",
+				ofPath / "apps/projectGenerator/commandLine/bin/commandLineDebug.app/Contents/MacOS/projectGenerator",
 			};
 
 			// try to find PG in different paths, choose the first found.
@@ -253,7 +255,6 @@ std::string sign = R"(
 				std::exit(0);
 			}
 		}
-
 
 		if (!hasConfig) {
 			// invoke pg.
@@ -344,6 +345,13 @@ std::string sign = R"(
 		if (nodeToStrings("templates").size()) {
 			string s = "-t\"" + 
 			fmt::format("{}",fmt::join(nodeToStrings("templates"),",")) 
+			+ "\"";
+			commands.emplace_back(s); 
+		}
+
+		if (nodeToStrings("frameworks").size()) {
+			string s = "-f\"" + 
+			fmt::format("{}",fmt::join(nodeToStrings("frameworks"),",")) 
 			+ "\"";
 			commands.emplace_back(s); 
 		}

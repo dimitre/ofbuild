@@ -5,4 +5,3 @@ ofxOpenCV
 ofxNetwork
 ofxSvg
 ofxXmlSettings
-ofxMicroUI
