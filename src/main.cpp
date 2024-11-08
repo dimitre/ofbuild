@@ -55,9 +55,9 @@ OFBUILD is meant to be run from your project folder, like
 cd $ofw/apps/myApps/GreatApp
 ofbuild
 it will try to find the projectGenerator in default folders.
-it will follow a recipe to build your project based in an of.yml file that can be present or not in your project folder.
+it will follow a recipe to build your project based in an of.yml file if present.
 
-ofbuild : generate your project based in of.yml file or on addons.make if not present.
+ofbuild : generate your project
 ofbuild import : create an of.yml file in your project folder based on addons.make
 ofbuild open : create your project and open in XCode
 ofbuild edit : opens of.yml in your editor of choice
@@ -68,6 +68,40 @@ ofbuild xcodebuild : build project and run xcodebuild
 
 Issues and suggestions are welcome in this repository
 https://github.com/dimitre/ofbuild
+
+
+of.yml sample:
+######################################################
+name: AeroFractal
+
+ofpath: /Volumes/tool/ofw
+
+addons:
+- ofxAssimpModelLoader
+- ofxKinect
+- ofxGui
+- ofxOpenCV
+- ofxNetwork
+- ofxSvg
+- ofxXmlSettings
+- git@github.com:danomatika/ofxMidi.git
+- git@github.com:dimitre/ofxMicroUI.git
+- git@github.com:dimitre/ofxMicroUIMidiController.git
+- git@github.com:astellato/ofxSyphon.git
+
+sources:
+- ../../src
+- /Volumes/tool/ofw/additional
+
+frameworks:
+- Vision
+- Metal
+- Metalkit
+
+platforms: ["osx", "vs"]
+templates: ["vscode"]
+
+######################################################
 
 )V0G0N";
 		
@@ -210,7 +244,7 @@ https://github.com/dimitre/ofbuild
 		divider();
 		msg(sign,32);
 		cout << VERSION << endl;
-		msg("Dimitre Lima http://dmtr.org/", 34);
+		msg("Dimitre Lima https://dmtr.org/", 34);
 		cout << endl;
 	}
 
