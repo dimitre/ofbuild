@@ -19,7 +19,7 @@ in your project folder create a file called ```of.yml``` with the settings simil
 
 with the command ```ofbuild``` you generate the project with the configurations specified in of.yml  
 other options  
-```ofbuild``` : clone local addons, generate the project
+```ofbuild``` : clone local addons, generate the project  
 ```ofbuild -h``` or ```ofbuild --help``` : help  
 ```ofbuild clean```  
 ```ofbuild edit``` : opens of.yml in your editor of choice  
