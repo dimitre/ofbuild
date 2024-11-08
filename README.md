@@ -59,14 +59,19 @@ addons:
 - git@github.com:dimitre/ofxMicroUIMidiController.git
 - git@github.com:astellato/ofxSyphon.git
 
-additionalSourceFolders:
-  # ../../src
-  # /Volumes/tool/ofw/additional
+sources:
+- ../../src
+- /Volumes/tool/ofw/additional
+
+frameworks:
+- Vision
+- Metal
+- Metalkit
 
 platforms: ["osx", "vs"]
 templates: ["vscode"]
 ```
-
+<!-- 
 # random notes:
 https://textpaint.net
 
@@ -80,4 +85,4 @@ blue	34	44
 magenta	35	45
 cyan	36	46
 white	37	47
-```
+``` -->
