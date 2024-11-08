@@ -1,4 +1,4 @@
-#define VERSION "Build System for OpenFrameworks v0.0.9"
+#define VERSION "Build System for OpenFrameworks v0.1.0"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
@@ -48,6 +48,31 @@ std::string sign = R"(
 	vector<fs::path> addonsPath;
 	vector<string> addonsStr;
 	vector<string> sourcesStr;
+
+	void help() {
+		std::string helpText = R"V0G0N(
+OFBUILD is meant to be run from your project folder, like
+cd $ofw/apps/myApps/GreatApp
+ofbuild
+it will try to find the projectGenerator in default folders.
+it will follow a recipe to build your project based in an of.yml file that can be present or not in your project folder.
+
+ofbuild : generate your project based in of.yml file or on addons.make if not present.
+ofbuild import : create an of.yml file in your project folder based on addons.make
+ofbuild open : create your project and open in XCode
+ofbuild edit : opens of.yml in your editor of choice
+ofbuild open : same as ofbuild then open created project in xcode (maybe rename to ofbuild xcode?) 
+ofbuild make : same as ofbuild then compiles using make
+ofbuild makerun : same as ofbuild then compiles and run
+ofbuild xcodebuild : build project and run xcodebuild
+
+Issues and suggestions are welcome in this repository
+https://github.com/dimitre/ofbuild
+
+)V0G0N";
+		
+		cout << helpText << endl;
+	}
 
 	void import() {
 		// msg("not yet implemented", 32);
@@ -232,6 +257,7 @@ std::string sign = R"(
 				ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
 				ofPath / "apps/projectGenerator/commandLine/bin/commandLine.app/Contents/MacOS/projectGenerator",
 				ofPath / "apps/projectGenerator/commandLine/bin/commandLineDebug.app/Contents/MacOS/projectGenerator",
+				ofPath / "projectGenerator/projectGenerator.app/Contents/Resources/app/app/projectGenerator"
 			};
 
 			// try to find PG in different paths, choose the first found.
@@ -436,8 +462,10 @@ int main(const int argc, const char* argv[]) {
 	
 	if (argc == 2) {
 		string param = argv[1];
-
-		if (param == "import") {
+		if (param == "-h" || param == "--help") {
+			build.help();
+		}
+		else if (param == "import") {
 			build.import();
 			build.load();
 		}
