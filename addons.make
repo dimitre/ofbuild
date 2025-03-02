@@ -1,7 +1,0 @@
-ofxAssimpModelLoader
-ofxKinect
-ofxGui
-ofxOpenCV
-ofxNetwork
-ofxSvg
-ofxXmlSettings

@@ -9,9 +9,10 @@
 	#include <filesystem>
 #else
 	#include <experimental/filesystem>
-#endif	
+#endif
 #include <vector>
 #include <regex>
+
 #include <fstream>
 
 using std::cout;
@@ -25,10 +26,10 @@ namespace fs = std::__fs::filesystem;
 
 struct builder {
 public:
-std::string signx = R"(________                       ___________                                                __            
+std::string signx = R"(________                       ___________                                                __
 \_____  \ ______   ____   ____ \_   _____/___________    _____   ______  _  _____________|  | __  ______
  /   |   \\____ \_/ __ \ /    \ |    __) \_  __ \__  \  /     \_/ __ \ \/ \/ /  _ \_  __ \  |/ / /  ___/
-/    |    \  |_> >  ___/|   |  \|     \   |  | \// __ \|  Y Y  \  ___/\     (  <_> )  | \/    <  \___ \ 
+/    |    \  |_> >  ___/|   |  \|     \   |  | \// __ \|  Y Y  \  ___/\     (  <_> )  | \/    <  \___ \
 \_______  /   __/ \___  >___|  /\___  /   |__|  (____  /__|_|  /\___  >\/\_/ \____/|__|  |__|_ \/____  >
         \/|__|        \/     \/     \/               \/      \/     \/                        \/     \/)";
 
@@ -39,6 +40,10 @@ std::string sign = R"(
 █    █ █     ░  ░ ▒  ▒ ▒ ▓    █  █
 ██████ █     ░░░  ▒▒▒▒ ▒ ▓▓▓▓ ███
 )";
+
+
+
+
 
 	YAML::Node config;
 	fs::path ofPath;
@@ -61,7 +66,7 @@ ofbuild : generate your project
 ofbuild import : create an of.yml file in your project folder based on addons.make
 ofbuild open : create your project and open in XCode
 ofbuild edit : opens of.yml in your editor of choice
-ofbuild open : same as ofbuild then open created project in xcode (maybe rename to ofbuild xcode?) 
+ofbuild open : same as ofbuild then open created project in xcode (maybe rename to ofbuild xcode?)
 ofbuild make : same as ofbuild then compiles using make
 ofbuild makerun : same as ofbuild then compiles and run
 ofbuild xcodebuild : build project and run xcodebuild
@@ -104,7 +109,7 @@ templates: ["vscode"]
 ######################################################
 
 )V0G0N";
-		
+
 		cout << helpText << endl;
 	}
 
@@ -188,8 +193,8 @@ templates: ["vscode"]
 			if (fs::exists(addonPath)) {
 				addonsPath.emplace_back(addonPath);
 			}
-		} 
-		else 
+		}
+		else
 		{
 			// cout << "git addon ----" << f << endl;
 			if (!fs::exists(buildPath)) {
@@ -198,7 +203,7 @@ templates: ["vscode"]
 			// string command = "cd "+ buildPath.string() + "; git clone --quiet --single-branch --config \"advice.detachedHead=false\" " + f + " --depth 1 " ;
 			// std::regex findRepository {"([^/]+)?(?:.git)?$"};
 			std::regex findRepository {"^(?:https?:\\/\\/|git@)(?:[^:/]+)[:/]{1}(?:.+)/([^./]+)(?:.git)?$"};
-			
+
 			std::smatch varMatch;
 			if(std::regex_search(f, varMatch, findRepository)) {
 				std::string repo = varMatch[1].str();
@@ -232,7 +237,7 @@ templates: ["vscode"]
 					bool ok = system(command.c_str());
 
 			}
-		} 
+		}
 		divider();
 	}
 
@@ -250,7 +255,7 @@ templates: ["vscode"]
 
 	void load() {
 
-		fs::path configFile = "of.yml";
+		fs::path configFile { "of.yml" };
 		bool hasConfig = false;
 
 		// check if of.yml file is present.
@@ -269,7 +274,7 @@ templates: ["vscode"]
 				ofPath = "../../..";
 			}
 
-			
+
 			if (!fs::exists(ofPath)) {
 				msg("ofpath does not exist " + ofPath.string(), 31);
 				divider();
@@ -282,7 +287,7 @@ templates: ["vscode"]
 		if (config["pgPath"]) {
 			pgPath = config["pgPath"].as<string>();
 		} else {
-			vector <fs::path> pgPaths { 
+			vector <fs::path> pgPaths {
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator",
 				ofPath / "apps/pgd/commandLine/bin/commandLine.app/Contents/MacOS/commandLine",
@@ -332,7 +337,7 @@ templates: ["vscode"]
 		msg("current path		" + fs::current_path().string(), 32);
 
 		// fs::path pgPath = ofPath / "apps/projectGenerator/commandLine/bin/projectGenerator.app/Contents/MacOS/projectGenerator";
-		// std::vector<fs::path> pgPaths = 
+		// std::vector<fs::path> pgPaths =
 
 
 		msg("OF PG path		" + pgPath.string(), 32);
@@ -396,24 +401,24 @@ templates: ["vscode"]
 		commands.emplace_back("-o\"" + ofPath.string() + "\"");
 
 		if (nodeToStrings("platforms").size()) {
-			string s = "-p\"" + 
-			fmt::format("{}",fmt::join(nodeToStrings("platforms"),",")) 
+			string s = "-p\"" +
+			fmt::format("{}",fmt::join(nodeToStrings("platforms"),","))
 			+ "\"";
-			commands.emplace_back(s); 
+			commands.emplace_back(s);
 		}
 
 		if (nodeToStrings("templates").size()) {
-			string s = "-t\"" + 
-			fmt::format("{}",fmt::join(nodeToStrings("templates"),",")) 
+			string s = "-t\"" +
+			fmt::format("{}",fmt::join(nodeToStrings("templates"),","))
 			+ "\"";
-			commands.emplace_back(s); 
+			commands.emplace_back(s);
 		}
 
 		if (nodeToStrings("frameworks").size()) {
-			string s = "-f\"" + 
-			fmt::format("{}",fmt::join(nodeToStrings("frameworks"),",")) 
+			string s = "-f\"" +
+			fmt::format("{}",fmt::join(nodeToStrings("frameworks"),","))
 			+ "\"";
-			commands.emplace_back(s); 
+			commands.emplace_back(s);
 		}
 
 		string addonString = "";
@@ -435,17 +440,17 @@ templates: ["vscode"]
 		}
 
 		if (addonString != "") {
-			string s = "-a\"" + 
+			string s = "-a\"" +
 			addonString
 			+ "\"";
-			commands.emplace_back(s); 
+			commands.emplace_back(s);
 		}
 
 		if (sourcesStr.size()) {
-			string s = "-s\"" + 
+			string s = "-s\"" +
 			fmt::format("{}",fmt::join(sourcesStr,","))
 			+ "\"";
-			commands.emplace_back(s); 
+			commands.emplace_back(s);
 		}
 
 		if (!config["projectPath"]) {
@@ -493,7 +498,7 @@ int main(const int argc, const char* argv[]) {
 		build.load();
 	}
 	// change here to any number of parameters.
-	
+
 	if (argc == 2) {
 		string param = argv[1];
 		if (param == "-h" || param == "--help") {
