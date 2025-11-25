@@ -1,5 +1,6 @@
 > [!WARNING]  
 > Not actively maintained anymore.
+> Superseded by ofGen / ofWorks / ofLibs
 
 ```
 ████ ███ ░░░  ▒  ▒ ▒ ▓    ███  TM
