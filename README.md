@@ -1,3 +1,6 @@
+> [!WARNING]  
+> Not actively maintained anymore.
+
 ```
 ████ ███ ░░░  ▒  ▒ ▒ ▓    ███  TM
 █  █ █   ░  ░ ▒  ▒ ▒ ▓    █  █  
