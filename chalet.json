@@ -1,30 +1,28 @@
-
-
 {
 	"name": "builder",
 	"version": "1.0.0",
 	"externalDependencies": {
 		"fmt": {
 			// "repository": "git@github.com:fmtlib/fmt.git",
-			"repository" : "https://github.com/fmtlib/fmt",
+			"repository": "https://github.com/fmtlib/fmt",
 			"tag": "9.1.0",
-			"kind" : "git"
+			"kind": "git"
 		},
 
 		// "mini-yaml" : {
 		// 	"repository" : "git@github.com:jimmiebergmann/mini-yaml.git",
 		// 	"kind" : "git"
-		// }, 
+		// },
 
-		"yaml" : {
+		"yaml": {
 			// "repository" : "git@github.com:jbeder/yaml-cpp.git",
-			"repository" : "https://github.com/jbeder/yaml-cpp",
-			"kind" : "git"
+			"repository": "https://github.com/jbeder/yaml-cpp",
+			"kind": "git"
 		}
 	},
 
 	"targets": {
-		"yaml" : {
+		"yaml": {
 			"kind": "cmakeProject",
 			"location": "${external:yaml}",
 			"recheck": false,
@@ -35,7 +33,8 @@
 				// "CMAKE_OSX_DEPLOYMENT_TARGET=10.9",
 				// "CMAKE_C_FLAGS=-arch arm64 -arch x86_64 -O3 -DNDEBUG -funroll-loops -Werror",
 				"CMAKE_C_FLAGS=-fPIC",
-				"CMAKE_CXX_FLAGS=-arch arm64 -arch x86_64 -stdlib=libc++ -O3 -DNDEBUG -funroll-loops -std=c++11"
+				//  -arch x86_64
+				"CMAKE_CXX_FLAGS=-arch arm64 -stdlib=libc++ -O3 -DNDEBUG -funroll-loops -std=c++11"
 			]
 		},
 		"fmt": {
@@ -60,14 +59,10 @@
 					"${external:fmt}/include"
 					// ,
 					// "src"
-				]
+				],
 				// "precompiledHeader": "src/pch.hpp",
 				// ,
-				,
-				"libDirs": [
-					"${externalBuild:fmt}",
-					"${externalBuild:yaml}"
-				],
+				"libDirs": ["${externalBuild:fmt}", "${externalBuild:yaml}"],
 				"staticLinks": [
 					"fmt",
 					"yaml-cpp"
@@ -76,7 +71,7 @@
 			},
 			"files": [
 				"src/**.cpp"
-				// , 
+				// ,
 				// "${external:mini-yaml}/yaml/**.cpp"
 			]
 		}
@@ -87,12 +82,12 @@
 		// 	"buildTargets": "*"
 		// },
 		"ofbuild-${targetTriple}": {
-		// "ofbuild": {
+			// "ofbuild": {
 			"kind": "archive",
 			"condition": "[:macos]",
 			"format": "zip",
-			"include": 
-				"build/universal-apple-darwin_Release/ofbuild"
+			// "include": "build/universal-apple-darwin_Release/ofbuild"
+			"include": "build/arm64-apple-darwin_Release/ofbuild"
 		}
 	}
 }
